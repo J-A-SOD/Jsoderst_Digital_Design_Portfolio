@@ -1,56 +1,111 @@
+
+/* Base */
 body {
   margin: 0;
-  font-family: Arial;
-  background-color: #111;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0b0b0b;
+  color: #f5f5f5;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Nav */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+}
+
+nav a {
+  color: #aaa;
+  margin: 0 20px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+nav a:hover {
   color: white;
+}
+
+/* Sections */
+section {
+  padding: 120px 20px;
+  max-width: 1000px;
+  margin: auto;
 }
 
 /* Hero */
 .hero {
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  text-align: center;
-}
-
-/* Sections */
-section {
-  padding: 80px 20px;
-  text-align: center;
-}
-
-/* Projects layout */
-.projects-container {
-  display: flex;
   justify-content: center;
-  gap: 20px;
 }
 
+.hero h1 {
+  font-size: 64px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #aaa;
+}
+
+/* Headings */
+h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+/* Paragraph */
+p {
+  line-height: 1.6;
+}
+
+/* Projects */
+.projects-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+/* Project Card */
 .project {
-  background: #222;
-  padding: 20px;
-  border-radius: 10px;
-  width: 250px;
+  background: #151515;
+  padding: 25px;
+  border-radius: 16px;
   transition: 0.3s;
 }
 
 .project:hover {
-  transform: scale(1.05);
+  transform: translateY(-10px);
+  background: #1f1f1f;
 }
 
-nav {
-  position: static;
-  top: 0;
-  width: 100%;
-  background: #000;
-  padding: 10px;
-  text-align: center;
+.project h3 {
+  margin-top: 0;
 }
 
-nav a {
-  color: rgb(30, 139, 202);
-  margin: 0 15px;
-  text-decoration: none;
+/* Skills */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+
+.skills span {
+  background: #1a1a1a;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #ccc;
+}
+
