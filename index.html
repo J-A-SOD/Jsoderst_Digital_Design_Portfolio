@@ -20,6 +20,13 @@ projects>Projects</a>
     <p>Immersive Media Designer</p>
   </section>
 
+<section class="hero" id="top">
+  <h1>Hannes Soderstrom</h1>
+  <p>I design intuitive digital experiences.</p>
+
+  <canvas id="3d-canvas"></canvas>
+</section>
+
   <!-- ABOUT -->
   <section id="about">
     <h2>About Me</h2>
@@ -54,6 +61,49 @@ projects>Projects</a>
       <span>CSS</span>
     </div>
   </section>
+  
 
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('3d-canvas'),
+    alpha: true
+  });
+
+  renderer.setSize(400, 400);
+
+  // Create a shape (cube)
+  const geometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
+  const material = new THREE.MeshStandardMaterial({
+    color: 0x8888ff,
+  });
+
+  const cube = new THREE.Mesh(geometry, material);
+
+  scene.add(cube);
+  
+  const light = new THREE.PointLight(0xffffff, 1);
+  light.position.set(5, 5, 5);
+  scene.add(light);
+
+
+  camera.position.z = 3;
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+  </script>
 </body>
 </html>

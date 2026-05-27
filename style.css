@@ -12,6 +12,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* canvas */
+canvas {
+  width: 400px;
+  height: 400px;
+  margin-top: 40px;
+}
+
 /* Nav */
 nav {
   position: fixed;
@@ -43,10 +50,11 @@ section {
 
 /* Hero */
 .hero {
-  height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+
 }
 
 .hero h1 {
