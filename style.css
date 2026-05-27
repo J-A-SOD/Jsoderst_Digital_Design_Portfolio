@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background-color: #111;
+  color: white;
+}
+
+/* Hero */
+.hero {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Sections */
+section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+/* Projects layout */
+.projects-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.project {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  width: 250px;
+  transition: 0.3s;
+}
+
+.project:hover {
+  transform: scale(1.05);
+}
+
+nav {
+  position: static;
+  top: 0;
+  width: 100%;
+  background: #000;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: rgb(30, 139, 202);
+  margin: 0 15px;
+  text-decoration: none;
+}
