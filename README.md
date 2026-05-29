@@ -7,8 +7,8 @@ Soderra is the name of my collection of work in my various fields of interest. T
 This repository is designed to be a copy of my website that contains my work in visual and auditory interactive design. The website functions as a digital portfolio of my work, and the various projects I have. This website in of itself was also a tool to learn how to code in HTML and is the outcome of a lengthy process of learning how to integrate design work into functioning websites or webapps.
 
 ### PROJECT TYPES
-	| TYPOLOGY | DESCRIPTION |
-| ----------- | ----------- |
+| **TYPOLOGY** | **DESCRIPTION** |
+| :----------- | :----------- |
 | ARCHITECTURE | Architecture, landscape architecture, and urban design proposals |
 | PHOTOGRAPHY | Photography work and photo editing |
 | SOUND DESIGN | Music, soundscapes and other audio based work |
