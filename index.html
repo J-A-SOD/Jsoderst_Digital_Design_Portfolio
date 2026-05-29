@@ -1,117 +1,31 @@
-
+<!-- Basic file setup -->
 <!DOCTYPE html>
 <html>
+
+<!-- Header section -->
 <head>
-  <title>JSODERST DESIGN PORTFOLIO</title>
+  <title>SODERRA - HOME</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    
-<nav>
-top">Home</a>
-about>About</a>
-projects>Projects</a>
-</nav>
-    
 
-  <!-- HERO -->
-  <section class="hero" id="top">
-    <h1>HELLO</h1>
-    <p>Immersive Media Designer</p>
-  </section>
+<!-- Body section -->
+<body class="dark">
 
-<section class="hero" id="top">
-  <h1>Hannes Soderstrom</h1>
-  <p>I design intuitive digital experiences.</p>
+  <!-- Background layers -->
+  <div class="background"></div>
+  <div class="glass"></div>
 
-  <canvas id="3d-canvas"></canvas>
-</section>
+  <!-- Dark Mode Button -->
+  <nav>
+    <button onclick="toggledarkmode()">Toggle Dark Mode</button>
+  </nav>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I design simple, meaningful digital experiences.</p>
-  </section>
+  <!-- Content -->
+  <main>
+    <h1>Hannes Soderstrom</h1>
+    <p>Emerging UX/UI Designer</p>
+  </main>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <h2>Projects</h2> 
-
-    <div class="projects-container">
-      <div class="project">
-        <h3>Project One</h3>
-        <p>Short description</p>
-      </div>
-
-      <div class="project">
-        <h3>Project Two</h3>
-        <p>Short description</p>
-      </div>
-    </div>
-  </section>
-  
-  <section id="skills">
-    <h2>Tools & Skills</h2>
-
-    <div class="skills">
-      <span>Figma</span>
-      <span>User Research</span>
-      <span>Wireframing</span>
-      <span>HTML</span>
-      <span>CSS</span>
-    </div>
-  </section>
-  
-  
-  <a href="proj-arch-bcc.html">
-    <div class="project">
-      <h3>Project One</h3>
-      <p>Description</p>
-    </div>
-  </a>
-  
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script>
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-
-  const renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('3d-canvas'),
-    alpha: true
-  });
-
-  renderer.setSize(400, 400);
-
-  // Create a shape (cube)
-  const geometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
-  const material = new THREE.MeshStandardMaterial({
-    color: 0x8888ff,
-  });
-
-  const cube = new THREE.Mesh(geometry, material);
-
-  scene.add(cube);
-  
-  const light = new THREE.PointLight(0xffffff, 1);
-  light.position.set(5, 5, 5);
-  scene.add(light);
-
-
-  camera.position.z = 3;
-
-  // Animation loop
-  function animate() {
-    requestAnimationFrame(animate);
-
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-
-    renderer.render(scene, camera);
-  }
-
-  animate();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
