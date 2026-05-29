@@ -8,7 +8,7 @@ This repository is designed to be a copy of my website that contains my work in 
 
 ### PROJECT TYPES
 | **TYPOLOGY** | **DESCRIPTION** |
-| :----------- | :----------- |
+| :----- | :----- |
 | ARCHITECTURE | Architecture, landscape architecture, and urban design proposals |
 | PHOTOGRAPHY | Photography work and photo editing |
 | SOUND DESIGN | Music, soundscapes and other audio based work |
