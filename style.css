@@ -48,6 +48,7 @@ body.light {
   height: 100%;
   z-index: -3;
   overflow: hidden;
+  transition: transform 0.1s linear;
 }
 
 /* Dark mode background */
