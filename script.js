@@ -1,3 +1,6 @@
+const bg = document.querySelector(".background");
+
+
 // LANDING PAGE TEXT ALTERNATOR
 
 const words = [
