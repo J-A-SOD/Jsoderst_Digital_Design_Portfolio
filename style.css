@@ -4,13 +4,19 @@
   box-sizing: border-box;
 }
 
+
+html, body {
+  overflow-x: hidden;
+}
+
 /* Everything on the page */
 body {
   margin: 0;
   font-family: "Satoshi", sans-serif;
   font-weight: 400;
-  background: black;
-  color: white;
+  background: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  cursor: none;
 }
 
 main {
@@ -20,15 +26,78 @@ main {
   padding-left: 80px;
 }
 
-/* CURSOR GLASS */
+/* Landing Anim Layer */
+
+.bg-frame {
+  position: fixed;
+  filter: saturate(0.2) brightness(0.9);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  z-index: -3;
+
+  transition: opacity 0.2s ease;
+}
+
+#LandingBgFrameA {
+  opacity: 1;
+}
+
+#LandingBgFrameB {
+  opacity: 0;
+}
+
+/* Glass Layer */
+
+.glass-layer {
+  position: fixed;
+  mix-blend-mode: darken;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  z-index: -2; /* above frames, below content */
+
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(40px);
+
+  background: rgba(0, 0, 0, 0.256);
+}
+
+/* Grain Layer */
+
+.grain {
+  position: fixed;
+  mix-blend-mode: multiply;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+  z-index: -1;
+
+  opacity: 1;
+
+  background-image: url("assets/images/grain.jpg");
+}
+
+/* CURSOR GLASS BALL */
 
 .cursor-glass {
+  pointer-events: none;
   position: fixed;
   top: 0;
   left: 0;
 
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
 
   pointer-events: none;
@@ -37,18 +106,85 @@ main {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(20px);
 
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.01);
+  border: 3px solid rgba(219, 214, 214, 0.1);
 }
 
+/* HEADER CLICKABLES --------------------------------- */
 
-/* LANDING PAGE ----------------------- */
+.header-nav {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  font-size: 20px;
+}
 
+.header-nav a {
+  flex: 1;   
+  color: white;            /* this is the key */
+  text-align: center;
+  text-decoration: none;
+  cursor: none;
+}
+
+.header-nav a:hover {
+  opacity: 0.6;
+  cursor: none;
+}
+
+/* LANDING PAGE ----------------------------------- */
 /* LANDING TEXT */
+
+.landing-specs {
+  position: fixed;
+  bottom: 40px;
+  left: 60px;
+  font-weight: 100;
+  font-size: 14px;
+  line-height: 1.4;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.landing-specs-bold {
+  position: fixed;
+  bottom: 40px;
+  left: 200px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.4;
+
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.audio-toggle {
+  position: fixed;
+  text-decoration: underline;
+  mix-blend-mode: screen;
+  left: 60px;
+  bottom: 120px; /* sits above the meta text */
+  transition: opacity 0.2s ease-in-out;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  cursor: none;
+}
+
+.audio-toggle:hover {
+  opacity: 0.5;
+}
 
 .landing-title {
   width: 100%;
-  font-size: 120px;
+  font-size: clamp(48px, 8vw, 220px);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -2px;
@@ -56,16 +192,15 @@ main {
 
 .landing-accent {
   position: absolute;
-  right: 170px;
-  top: -120px;
+  right: 175px;
+  top: -100px;
   font-family: "Zodiac", serif;
   font-weight: 100;
-  font-size: 80px;
-  color: #7574b6;
+  font-size: clamp(24px, 4vw, 120px);
+  color: #baadca;
   opacity: 0.8;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.5s ease;
 }
-
 
 /* USED CLASSES */
 
@@ -77,6 +212,7 @@ main {
 .left {
   text-align: left;
   padding-left: 160px;
+  transform: none;
 }
 
 .right {
@@ -89,7 +225,20 @@ main {
   position: relative;
   display: block;
   width: 100%;
+  transform: none;
+}
 
+/* TRANSITIONS */
+
+.fade {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 2s ease, transform 1s ease;
+}
+
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
