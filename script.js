@@ -106,12 +106,17 @@ document.addEventListener("mousemove", (e) => {
   mouseY = e.clientY;
 });
 
+let currentOffset = 0;
+
 function animateText() {
   const normalizedY = (mouseY / window.innerHeight) - 0.5;
-  const offset = normalizedY * 200;
+  const targetOffset = normalizedY * 100;
 
-  leftLine.style.transform = `translateX(${-offset}px)`;
-  rightContainer.style.transform = `translateX(${offset}px)`;
+  // smooth interpolation (this is your delay)
+  currentOffset += (targetOffset - currentOffset) * 0.05;
+
+  leftLine.style.transform = `translateX(${-currentOffset}px)`;
+  rightContainer.style.transform = `translateX(${currentOffset}px)`;
 
   requestAnimationFrame(animateText);
 }
@@ -141,7 +146,7 @@ document.addEventListener("mousemove", (e) => {
   if (frameIndex !== currentFrame) {
     currentFrame = frameIndex;
 
-    const nextSrc = `assets/landingframes/frame (${frameIndex}).jpg`;
+    const nextSrc = `assets/landingframes/frame_${frameIndex}.jpg`;
 
     const nextImage = showingA ? LandingBgFrameB : LandingBgFrameA;
     const currentImage = showingA ? LandingBgFrameA : LandingBgFrameB;
