@@ -1,32 +1,59 @@
-function toggledarkmode() {
-  const body = document.body;
+// LANDING PAGE TEXT ALTERNATOR
 
-  if (body.classList.contains('dark')) {
-    body.classList.remove('dark');
-    body.classList.add('light');
-  } else {
-    body.classList.remove('light');
-    body.classList.add('dark');
-  }
-}
+const words = [
+  "graphic design",
+  "photography",
+  "music",
+  "sound design", 
+  "architecture",
+  "interactive media"
+];
 
-let mouseX = 0;
-let mouseY = 0;
+let index = 0;
+const text = document.getElementById("changing-landing-accent");
+
+setInterval(() => {
+    text.style.opacity = 0; // Fade out the text
+    
+    setTimeout(() => {
+        index = (index + 1) % words.length;
+        text.textContent = words[index];
+        text.style.opacity = 1; // Fade in the new text
+    }, 200); // 500ms = fade out duration
+
+}, 2000); // 2000ms = 2 seconds
+
+// GLASS CURSOR
+
+const cursor = document.querySelector(".cursor-glass");
+
+let lastX = 0;
+let lastY = 0;
+let velocity = 0;
+let currentScale = 1;
+let targetScale = 1;
 
 document.addEventListener("mousemove", (e) => {
-  mouseX = (e.clientX / window.innerWidth) - 0.5;
-  mouseY = (e.clientY / window.innerHeight) - 0.5;
+  const dx = e.clientX - lastX;
+  const dy = e.clientY - lastY;
+
+  velocity = Math.sqrt(dx * dx + dy * dy);
+
+  lastX = e.clientX;
+  lastY = e.clientY;
+
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+
+  // target scale based on speed
+  targetScale = Math.max(0.5, 1 - velocity / 80);
 });
 
-let currentX = 0;
-let currentY = 0;
-
 function animate() {
-  // smooth interpolation (lerp)
-  currentX += (mouseX * 100 - currentX) * 1;
-  currentY += (mouseY * 100 - currentY) * 1;
+  // smooth interpolation (delay effect)
+  currentScale += (targetScale - currentScale) * 0.05;
 
-  bg.style.transform = `translate(${currentX}px, ${currentY}px)`;
+  cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
 
   requestAnimationFrame(animate);
 }

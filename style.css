@@ -1,131 +1,110 @@
-/* Reset */
-body {
-  margin: 0;
-  font-family: -apple-system, sans-serif;
-  transition: background 0.4s ease, color 0.4s ease;
+/* Keep at 100% width not more */
+
+* {
+  box-sizing: border-box;
 }
 
-/* Layout */
+/* Everything on the page */
+body {
+  margin: 0;
+  font-family: "Satoshi", sans-serif;
+  font-weight: 400;
+  background: black;
+  color: white;
+}
+
 main {
   height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
   padding-left: 80px;
 }
 
-nav {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
-}
+/* CURSOR GLASS */
 
-button {
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-body.dark {
-  background: #050505;
-  color: #9b9b9b;
-}
-
-body.light {
-  background: #858585;
-  color: #111;
-}
-
-/* Basic background */
-
-.background {
+.cursor-glass {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -3;
-  overflow: hidden;
-  transition: transform 0.1s linear;
-}
 
-/* Dark mode background */
-body.dark .background::before,
-body.dark .background::after {
-  content: "";
-  position: absolute;
-  width: 800px;
-  height: 800px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  filter: blur(120px);
-  animation: float 20s infinite ease-in-out;
-}
 
-body.dark .background::before {
-  background: rgba(90, 110, 255, 0.25);
-  top: 10%;
-  left: 10%;
-}
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 
-body.dark .background::after {
-  background: rgba(255, 120, 200, 0.2);
-  bottom: 10%;
-  right: 10%;
-  animation-delay: 8s;
-}
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(20px);
 
-/* Light mode background */
-body.light .background::before,
-body.light .background::after {
-  content: "";
-  position: absolute;
-  width: 800px;
-  height: 800px;
-  border-radius: 50%;
-  filter: blur(100px);
-  animation: float 20s infinite ease-in-out;
-}
-
-body.light .background::before {
-  background: rgba(120, 170, 255, 0.35);
-  top: 10%;
-  left: 10%;
-}
-
-body.light .background::after {
-  background: rgba(255, 160, 200, 0.3);
-  bottom: 10%;
-  right: 10%;
-  animation-delay: 8s;
-}
-
-/* Animations */
-@keyframes float {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(100px, 100px);
-  }
-  50% {
-    transform: translate(200px, 0);
-  }
-  75% {
-    transform: translate(100px, -100px);
-  }
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 
-.glass {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* LANDING PAGE ----------------------- */
+
+/* LANDING TEXT */
+
+.landing-title {
   width: 100%;
-  height: 100%;
-  z-index: -2;
+  font-size: 120px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2px;
+}
 
-  backdrop-filter: blur(60px);
-  -webkit-backdrop-filter: blur(60px);
+.landing-accent {
+  position: absolute;
+  right: 170px;
+  top: -120px;
+  font-family: "Zodiac", serif;
+  font-weight: 100;
+  font-size: 80px;
+  color: #7574b6;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+
+/* USED CLASSES */
+
+.line  {
+  display: block;
+  width: 100%;
+}
+
+.left {
+  text-align: left;
+  padding-left: 160px;
+}
+
+.right {
+  display: block;
+  text-align: right;
+  padding-right: 160px;
+}
+
+.right-container {
+  position: relative;
+  display: block;
+  width: 100%;
+
+}
+
+
+/* FONTS */
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("assets/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Zodiac";
+  src: url("assets/fonts/Zodiac-Variable.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
 }
