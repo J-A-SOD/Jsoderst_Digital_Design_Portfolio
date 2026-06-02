@@ -11,6 +11,7 @@ body {
   font-weight: 400;
   background: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
+  cursor: none;
 }
 
 main {
@@ -40,6 +41,7 @@ main {
 /* CURSOR GLASS */
 
 .cursor-glass {
+  pointer-events: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -65,16 +67,23 @@ main {
   top: 20px;
   left: 0;
   width: 100%;
-
+  z-index: 10;
   display: flex;
   font-size: 20px;
 }
 
 .header-nav a {
-  flex: 1;               /* this is the key */
+  flex: 1;   
+  color: white;            /* this is the key */
   text-align: center;
+  text-decoration: none;
+  cursor: none;
 }
 
+.header-nav a:hover {
+  opacity: 0.6;
+  cursor: none;
+}
 
 /* LANDING PAGE ----------------------- */
 
