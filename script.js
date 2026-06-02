@@ -28,10 +28,6 @@ if (text) {
   }, 2000);
 }
 
-
-
-
-
 // GLASS CURSOR SCRIPT
 
 const cursor = document.querySelector(".cursor-glass");
@@ -110,7 +106,7 @@ let currentOffset = 0;
 
 function animateText() {
   const normalizedY = (mouseY / window.innerHeight) - 0.5;
-  const targetOffset = normalizedY * 100;
+  const targetOffset = normalizedY * 50;
 
   // smooth interpolation (this is your delay)
   currentOffset += (targetOffset - currentOffset) * 0.05;
@@ -122,7 +118,6 @@ function animateText() {
 }
 
 animateText();
-
 
 // Animate Background 
 
