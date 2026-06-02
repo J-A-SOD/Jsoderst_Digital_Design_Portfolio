@@ -79,7 +79,7 @@ document.addEventListener("mousemove", (e) => {
 });
 
 function animate() {
-  currentScale += (targetScale - currentScale) * 0.2;
+  currentScale += (targetScale - currentScale) * 0.06;
 
   cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
 
@@ -87,4 +87,68 @@ function animate() {
 }
 
 animate();
+
+// ANIMATE LANDING HEADER
+const rightContainer = document.querySelector(".right-container")
+const leftLine = document.querySelector(".left");
+const rightLine = document.querySelector(".right");
+
+let currentOffset = 0;
+
+document.addEventListener("mousemove", (e) => {
+  const normalizedY = (e.clientY / window.innerHeight) - 0.5;
+
+  // target spread based on vertical position
+  targetOffset = normalizedY * 60; 
+});
+
+function animateText() {
+  currentOffset += (targetOffset - currentOffset) * 0.1;
+
+  leftLine.style.transform = `translateX(${-currentOffset}px)`;
+  rightContainer.style.transform = `translateX(${currentOffset}px)`;
+
+  requestAnimationFrame(animateText);
+}
+
+let targetOffset = 0;
+animateText();
+
+// Animate Background 
+
+const LandingBgFrameA = document.getElementById("LandingBgFrameA");
+const LandingBgFrameB = document.getElementById("LandingBgFrameB");
+
+const totalFrames = 50;
+
+let currentFrame = 1;
+let showingA = true;
+
+document.addEventListener("mousemove", (e) => {
+  const x = e.clientX / window.innerWidth;
+  const y = e.clientY / window.innerHeight;
+
+  const progress = (x + y) / 2;
+  const frameIndex = Math.round(progress * (totalFrames - 1)) + 1;
+
+  if (frameIndex !== currentFrame) {
+    currentFrame = frameIndex;
+
+    const nextSrc = `assets/landingframes/frame (${frameIndex}).jpg`;
+
+    if (showingA) {
+      LandingBgFrameB.src = nextSrc;
+      LandingBgFrameB.style.opacity = 1;
+      LandingBgFrameA.style.opacity = 0;
+    } else {
+      LandingBgFrameA.src = nextSrc;
+      LandingBgFrameA.style.opacity = 1;
+      LandingBgFrameB.style.opacity = 0;
+    }
+
+
+    showingA = !showingA;
+  }
+});
+
 
