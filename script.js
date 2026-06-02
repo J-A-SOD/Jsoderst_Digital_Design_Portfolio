@@ -12,24 +12,30 @@ const words = [
   "interactive media"
 ];
 
-let index = 0;
+let wordIndex = 0;
 const text = document.getElementById("changing-landing-accent");
 
-setInterval(() => {
-    text.style.opacity = 0; // Fade out the text
-    
-    setTimeout(() => {
-        index = (index + 1) % words.length;
-        text.textContent = words[index];
-        text.style.opacity = 1; // Fade in the new text
-    }, 200); // 500ms = fade out duration
+if (text) {
+  
+  setInterval(() => {
+    text.style.opacity = 0;
 
-}, 1500); // 2000ms = 2 seconds
+    setTimeout(() => {
+      wordIndex = (wordIndex + 1) % words.length;
+      text.textContent = words[wordIndex];
+      text.style.opacity = 1;
+    }, 300);
+  }, 2000);
+}
+
+
+
+
 
 // GLASS CURSOR SCRIPT
 
 const cursor = document.querySelector(".cursor-glass");
-const links = document.querySelectorAll(".header-nav a");
+const links = document.querySelectorAll(".header-nav a, #audio-toggle");
 
 let lastX = 0;
 let lastY = 0;
@@ -89,30 +95,29 @@ function animate() {
 animate();
 
 // ANIMATE LANDING HEADER
+
 const rightContainer = document.querySelector(".right-container")
 const leftLine = document.querySelector(".left");
 const rightLine = document.querySelector(".right");
 
-let currentOffset = 0;
+let mouseY = 0;
 
 document.addEventListener("mousemove", (e) => {
-  const normalizedY = (e.clientY / window.innerHeight) - 0.5;
-
-  // target spread based on vertical position
-  targetOffset = normalizedY * 60; 
+  mouseY = e.clientY;
 });
 
 function animateText() {
-  currentOffset += (targetOffset - currentOffset) * 0.1;
+  const normalizedY = (mouseY / window.innerHeight) - 0.5;
+  const offset = normalizedY * 200;
 
-  leftLine.style.transform = `translateX(${-currentOffset}px)`;
-  rightContainer.style.transform = `translateX(${currentOffset}px)`;
+  leftLine.style.transform = `translateX(${-offset}px)`;
+  rightContainer.style.transform = `translateX(${offset}px)`;
 
   requestAnimationFrame(animateText);
 }
 
-let targetOffset = 0;
 animateText();
+
 
 // Animate Background 
 
@@ -131,24 +136,114 @@ document.addEventListener("mousemove", (e) => {
   const progress = (x + y) / 2;
   const frameIndex = Math.round(progress * (totalFrames - 1)) + 1;
 
+  
+  
   if (frameIndex !== currentFrame) {
     currentFrame = frameIndex;
 
     const nextSrc = `assets/landingframes/frame (${frameIndex}).jpg`;
 
-    if (showingA) {
-      LandingBgFrameB.src = nextSrc;
-      LandingBgFrameB.style.opacity = 1;
-      LandingBgFrameA.style.opacity = 0;
-    } else {
-      LandingBgFrameA.src = nextSrc;
-      LandingBgFrameA.style.opacity = 1;
-      LandingBgFrameB.style.opacity = 0;
+    const nextImage = showingA ? LandingBgFrameB : LandingBgFrameA;
+    const currentImage = showingA ? LandingBgFrameA : LandingBgFrameB;
+
+    // preload before showing
+    const img = new Image();
+    img.src = nextSrc;
+
+    img.onload = () => {
+      nextImage.src = nextSrc;
+
+      nextImage.style.opacity = 1;
+      currentImage.style.opacity = 0;
+
+      showingA = !showingA;
+    };
+  }
+
+
+});
+
+window.addEventListener("load", () => {
+  const fades = document.querySelectorAll(".fade");
+
+  fades.forEach((el, i) => {
+    setTimeout(() => {
+      el.classList.add("show");
+    }, i * 300); // delay between items
+  });
+});
+
+// MUSIC
+
+let targetVolumes = [0, 0, 0, 0];
+let currentVolumes = [0, 0, 0, 0];
+
+const a = document.getElementById("track00");
+const b = document.getElementById("track01");
+const c = document.getElementById("track10");
+const d = document.getElementById("track11");
+
+// start all tracks muted
+[a, b, c, d].forEach(t => {
+  t.volume = 0;
+  t.loop = true;
+  t.play(); 
+});
+
+function makeSeamlessLoop(track, overlap = 0.15) {
+  function check() {
+    if (track.currentTime >= track.duration - overlap) {
+      track.currentTime = 0;
     }
+    requestAnimationFrame(check);
+  }
+  check();
+}
 
 
-    showingA = !showingA;
+[a, b, c, d].forEach(t => {
+  makeSeamlessLoop(t, 0.15);
+});
+
+
+document.addEventListener("mousemove", (e) => {
+  const x = e.clientX / window.innerWidth;
+  const y = e.clientY / window.innerHeight;
+
+  targetVolumes[0] = (1 - x) * (1 - y); // a
+  targetVolumes[1] = x * (1 - y);       // b
+  targetVolumes[2] = (1 - x) * y;       // c
+  targetVolumes[3] = x * y;             // d
+});
+
+function animateAudio() {
+  const tracks = [a, b, c, d];
+
+  for (let i = 0; i < tracks.length; i++) {
+    currentVolumes[i] += (targetVolumes[i] - currentVolumes[i]) * 0.01;
+    tracks[i].volume = currentVolumes[i];
+  }
+
+  requestAnimationFrame(animateAudio);
+}
+
+animateAudio();
+
+let audioPlaying = false;
+
+const button = document.getElementById("audio-toggle");
+
+button.addEventListener("click", () => {
+  if (!audioPlaying) {
+    [a, b, c, d].forEach(t => t.play());
+    button.textContent = "Mute Sound";
+    audioPlaying = true;
+  } else {
+    [a, b, c, d].forEach(t => t.pause());
+    button.textContent = "Enable Sound";
+    audioPlaying = false;
   }
 });
 
+// MOUSE GLASS COLOUR
 

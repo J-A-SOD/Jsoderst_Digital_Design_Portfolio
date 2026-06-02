@@ -1,6 +1,15 @@
 <!-- Basic file setup -->
 <!DOCTYPE html>
+
 <html>
+
+
+<!-- AUDIO -->
+
+<audio id="track00" src="assets/audio/LP00.mp3" loop></audio>
+<audio id="track10" src="assets/audio/LP10.mp3" loop></audio>
+<audio id="track01" src="assets/audio/LP01.mp3" loop></audio>
+<audio id="track11" src="assets/audio/LP11.mp3" loop></audio>
 
 <!-- Website Tab/Header -->
 <head>
@@ -10,7 +19,7 @@
 
 <!-- CLICKABLE HEADNOTES -->
 
-<nav class="header-nav">
+<nav class="header-nav fade">
   <a href="about.html">/About/</a>
   <a href="contact.html">/Contact/</a>
   <a href="license.html">/License/</a>
@@ -21,8 +30,8 @@
 <!-- Body -->
 <body>
 
-  <img id="LandingBgFrameA" class="bg-frame" src="assets/landingframes/frame (1).jpg">
-  <img id="LandingBgFrameB" class="bg-frame" src="assets/landingframes/frame (1).jpg">
+  <img id="LandingBgFrameA" class="bg-frame fade" src="assets/landingframes/frame (1).jpg">
+  <img id="LandingBgFrameB" class="bg-frame fade" src="assets/landingframes/frame (1).jpg">
 
   <div class="glass-layer"></div>
   
@@ -33,9 +42,9 @@
     <!-- LANDING PAGE TEXT -->
     <h1 class="landing-title">
 
-      <span class="line left">JOHANNES</span>
+      <span class="line left fade">JOHANNES</span>
 
-      <span class="line right-container">
+      <span class="line right-container fade">
         <span class="right">SODERSTROM</span>
         <span class="landing-accent" id="changing-landing-accent">graphic design</span>
       </span>
@@ -46,11 +55,16 @@
     
   </main>
 
-  <div class="landing-specs">
+  
+  <button id="audio-toggle" class="landing-specs audio-toggle">
+    Enable Sound
+  </button>
+
+  <div class="landing-specs fade">
     <p>Vancouver based<br>Melbourne raised</p>
   </div>
 
-  <div class="landing-specs-bold">
+  <div class="landing-specs-bold fade">
     <p>UNDERGRADUATE<br>HIGHSCHOOL</p>
   </div>
 

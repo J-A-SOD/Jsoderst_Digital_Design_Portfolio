@@ -39,7 +39,7 @@ main {
 
   z-index: -3;
 
-  transition: opacity 1s ease;
+  transition: opacity 0.2s ease;
 }
 
 #LandingBgFrameA {
@@ -74,7 +74,7 @@ main {
 
 .grain {
   position: fixed;
-  mix-blend-mode: overlay;
+  mix-blend-mode: multiply;
   top: 0;
   left: 0;
   width: 100%;
@@ -83,7 +83,7 @@ main {
   pointer-events: none;
   z-index: -1;
 
-  opacity: 0.9;
+  opacity: 1;
 
   background-image: url("assets/images/grain.jpg");
 }
@@ -160,9 +160,31 @@ main {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.audio-toggle {
+  position: fixed;
+  text-decoration: underline;
+  mix-blend-mode: screen;
+  left: 60px;
+  bottom: 120px; /* sits above the meta text */
+  transition: opacity 0.2s ease-in-out;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  cursor: none;
+}
+
+.audio-toggle:hover {
+  opacity: 0.5;
+}
+
 .landing-title {
   width: 100%;
-  font-size: 160px;
+  font-size: clamp(48px, 8vw, 220px);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -2px;
@@ -171,13 +193,13 @@ main {
 .landing-accent {
   position: absolute;
   right: 175px;
-  top: -140px;
+  top: -100px;
   font-family: "Zodiac", serif;
   font-weight: 100;
-  font-size: 100px;
-  color: #e5b95c;
+  font-size: clamp(24px, 4vw, 120px);
+  color: #baadca;
   opacity: 0.8;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.5s ease;
 }
 
 /* USED CLASSES */
@@ -190,6 +212,7 @@ main {
 .left {
   text-align: left;
   padding-left: 160px;
+  transform: none;
 }
 
 .right {
@@ -202,7 +225,23 @@ main {
   position: relative;
   display: block;
   width: 100%;
+  transform: none;
+}
 
+
+
+
+/* TRANSITIONS */
+
+.fade {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 2s ease, transform 1s ease;
+}
+
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
