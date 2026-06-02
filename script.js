@@ -147,7 +147,6 @@ document.addEventListener("mousemove", (e) => {
     currentFrame = frameIndex;
 
     const nextSrc = `assets/landingframes/frame_${frameIndex}.jpg`;
-
     const nextImage = showingA ? LandingBgFrameB : LandingBgFrameA;
     const currentImage = showingA ? LandingBgFrameA : LandingBgFrameB;
 
