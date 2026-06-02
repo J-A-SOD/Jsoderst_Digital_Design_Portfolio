@@ -124,16 +124,15 @@ animateText();
 const LandingBgFrameA = document.getElementById("LandingBgFrameA");
 const LandingBgFrameB = document.getElementById("LandingBgFrameB");
 
-const totalFrames = 50;
+const totalFrames = 40;
 
 let currentFrame = 1;
 let showingA = true;
 
 document.addEventListener("mousemove", (e) => {
-  const x = e.clientX / window.innerWidth;
   const y = e.clientY / window.innerHeight;
-
-  const progress = (x + y) / 2;
+  const x = e.clientX / window.innerWidth;
+  const progress = (x + y) / 2 + (x - y) * 0.2;
   const frameIndex = Math.round(progress * (totalFrames - 1)) + 1;
 
   
@@ -141,7 +140,7 @@ document.addEventListener("mousemove", (e) => {
   if (frameIndex !== currentFrame) {
     currentFrame = frameIndex;
 
-    const nextSrc = `assets/landingframes/frame_${frameIndex}.jpg`;
+    const nextSrc = `assets/landingframes/frame_0${frameIndex}.jpg`;
     const nextImage = showingA ? LandingBgFrameB : LandingBgFrameA;
     const currentImage = showingA ? LandingBgFrameA : LandingBgFrameB;
 

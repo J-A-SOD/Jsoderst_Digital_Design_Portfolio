@@ -30,7 +30,7 @@ main {
 
 .bg-frame {
   position: fixed;
-  filter: saturate(0.2) brightness(0.9);
+  filter: saturate(0.3) brightness(0.8);
   top: 0;
   left: 0;
   width: 100%;
