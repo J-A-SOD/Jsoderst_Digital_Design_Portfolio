@@ -24,9 +24,9 @@ setInterval(() => {
         text.style.opacity = 1; // Fade in the new text
     }, 200); // 500ms = fade out duration
 
-}, 2000); // 2000ms = 2 seconds
+}, 1500); // 2000ms = 2 seconds
 
-// GLASS CURSOR
+// GLASS CURSOR SCRIPT
 
 const cursor = document.querySelector(".cursor-glass");
 
@@ -54,7 +54,7 @@ document.addEventListener("mousemove", (e) => {
 
 function animate() {
   // smooth interpolation (delay effect)
-  currentScale += (targetScale - currentScale) * 0.05;
+  currentScale += (targetScale - currentScale) * 0.2;
 
   cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
 
