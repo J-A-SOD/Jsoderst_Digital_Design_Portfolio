@@ -31,7 +31,7 @@ if (text) {
 // GLASS CURSOR SCRIPT
 
 const cursor = document.querySelector(".cursor-glass");
-const links = document.querySelectorAll(".header-nav a, #audio-toggle");
+const links = document.querySelectorAll(".header-nav a, #audio-toggle, .arrow");
 
 let lastX = 0;
 let lastY = 0;
@@ -243,5 +243,61 @@ button.addEventListener("click", () => {
   }
 });
 
-// MOUSE GLASS COLOUR
+// DOWN ARROW
+
+const arrow = document.getElementById("arrow");
+const landingpage = document.getElementById("landingpage");
+let LandingOpen = false;
+
+arrow.addEventListener("click", () => {
+  LandingOpen = !LandingOpen;
+
+
+  if (LandingOpen) {
+    hero.classList.add("move-up");
+    arrow.classList.add("flipped")
+    document.body.classList.add("colour-shift")
+  } else {
+    hero.classList.remove("move-up");
+    arrow.classList.remove("flipped")
+    document.body.classList.remove("colour-shift")
+  }
+  
+  // page 2 vs page 1 values
+  bgTargetHue = LandingOpen ? 120 : 0;
+  bgTargetSat = LandingOpen ? 1.5 : 0.9;
+  bgTargetBright = LandingOpen ? 4.0 : 0.9;
+
+}); 
+
+
+let bgCurrentHue = 0;
+let bgTargetHue = 0;
+
+let bgCurrentSat = 1;
+let bgTargetSat = 1;
+
+let bgCurrentBright = 1;
+let bgTargetBright = 1;
+
+function animatebgColour() {
+  bgCurrentHue += (bgTargetHue - bgCurrentHue) * 0.03;
+  bgCurrentSat += (bgTargetSat - bgCurrentSat) * 0.01;
+  bgCurrentBright += (bgTargetBright - bgCurrentBright) * 0.01;
+
+  const glass = document.querySelector(".glass-layer");
+
+  if (glass) {
+    
+    glass.style.backdropFilter =
+      `blur(50px) 
+      hue-rotate(${bgCurrentHue}deg) 
+      saturate(${bgCurrentSat}) 
+      brightness(${bgCurrentBright})`;
+  }
+
+  requestAnimationFrame(animatebgColour);
+}
+
+animatebgColour();
 

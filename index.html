@@ -30,46 +30,53 @@
 <!-- Body -->
 <body>
 
+  <!-- BG LAYERS -->
   <img id="LandingBgFrameA" class="bg-frame fade" src="assets/landingframes/frame_1.jpg">
   <img id="LandingBgFrameB" class="bg-frame fade" src="assets/landingframes/frame_1.jpg">
-
   <div class="glass-layer"></div>
-  
   <div class="grain"></div>
-
-  <main>
-    
-    <!-- LANDING PAGE TEXT -->
-    <h1 class="landing-title fade">
-
-      <span class="line left">JOHANNES</span>
-
-      <span class="line right-container">
-        <span class="right">SODERSTROM</span>
-        <span class="landing-accent" id="changing-landing-accent">graphic design</span>
-      </span>
-
-    </h1>
-
-    <div class="cursor-glass"></div>
-    
-  </main>
-
   
-  <button id="audio-toggle" class="landing-specs audio-toggle">
-    Enable Sound
-  </button>
+  <!-- CURSOR -->
+  <div class="cursor-glass"></div>
+  
+  <!-- LANDING PAGE CONTENT -->
+  <div id="hero">
 
-  <div class="landing-specs fade">
-    <p>Vancouver based<br>Melbourne raised</p>
+    <main>
+
+      <!-- MAIN BIG TEXT -->
+      <h1 class="landing-title fade">
+        <span class="line left">JOHANNES</span>
+        <span class="line right-container">
+          <span class="right">SODERSTROM</span>
+          <span class="landing-accent" id="changing-landing-accent">graphic design</span>
+        </span>
+      </h1>
+      
+    </main>
+
+    <!-- BUTTONS AND MINOR TEXT -->
+    <button id="audio-toggle" class="landing-specs audio-toggle">
+      Enable Sound
+    </button>
+    
+    <div class="landing-specs fade">
+      <p>Vancouver based<br>Melbourne raised</p>
+    </div>
+    <div class="landing-specs-bold fade">
+      <p>UNDERGRADUATE<br>HIGHSCHOOL</p>
+    </div>
+    
   </div>
 
-  <div class="landing-specs-bold fade">
-    <p>UNDERGRADUATE<br>HIGHSCHOOL</p>
+  <div class="arrow-frame fade">
+  <img src="assets/images/arrow.png" class="arrow" id="arrow">
   </div>
 
   <script src="script.js"></script>
 
 </body>
+
+
 
 </html>
