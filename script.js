@@ -252,13 +252,14 @@ let LandingOpen = false;
 arrow.addEventListener("click", () => {
   LandingOpen = !LandingOpen;
 
-
   if (LandingOpen) {
     hero.classList.add("move-up");
+    document.body.classList.add("move-up");
     arrow.classList.add("flipped")
     document.body.classList.add("colour-shift")
   } else {
     hero.classList.remove("move-up");
+    document.body.classList.remove("move-up");
     arrow.classList.remove("flipped")
     document.body.classList.remove("colour-shift")
   }
@@ -270,13 +271,10 @@ arrow.addEventListener("click", () => {
 
 }); 
 
-
 let bgCurrentHue = 0;
 let bgTargetHue = 0;
-
 let bgCurrentSat = 1;
 let bgTargetSat = 1;
-
 let bgCurrentBright = 1;
 let bgTargetBright = 1;
 
