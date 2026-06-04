@@ -304,7 +304,7 @@ animatebgColour();
 
 const cards = document.querySelectorAll(".project-preview");
 
-let currentIndex = 2;
+let currentIndex = 6;
 
 function updateStack() {
   cards.forEach(card => {
@@ -332,8 +332,12 @@ function updateStack() {
     const offset = i - currentIndex;
 
     // position spacing
-    const y = offset * -70;   // ✅ vertical spacing
-    const scale = 1 - Math.abs(offset) * 0.05;
+    
+    const y = offset > 0 
+      ? offset * 80     // ✅ below → keep this bigger
+      : offset * 20;    // ✅ above → reduce movement
+
+    const scale = 1 - Math.abs(offset) * 0.03;
     const opacity = 1 - Math.abs(offset) * 0.1;
 
     card.style.transform = `
