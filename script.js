@@ -31,7 +31,7 @@ if (text) {
 // GLASS CURSOR SCRIPT
 
 const cursor = document.querySelector(".cursor-glass");
-const links = document.querySelectorAll(".header-nav a, #audio-toggle, .arrow");
+const links = document.querySelectorAll(".header-nav a, #audio-toggle, .arrow, .project-preview");
 
 let lastX = 0;
 let lastY = 0;
@@ -39,6 +39,10 @@ let lastY = 0;
 let velocity = 0;
 let currentScale = 1;
 let targetScale = 1;
+
+let currentOpacity = 1;
+let targetOpacity = 1;
+
 
 document.addEventListener("mousemove", (e) => {
   // move cursor
@@ -59,34 +63,46 @@ document.addEventListener("mousemove", (e) => {
 
   // check proximity to links
   let nearLink = false;
+  let minDistance = Infinity;
+  
 
   links.forEach(link => {
     const rect = link.getBoundingClientRect();
 
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    // ✅ distance to EDGE of element, not center
+    const dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
+    const dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
 
-    const distX = e.clientX - centerX;
-    const distY = e.clientY - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
-    const distance = Math.sqrt(distX * distX + distY * distY);
-
-    if (distance < 70) {
-      nearLink = true;
-    }
+    minDistance = Math.min(minDistance, distance);
   });
 
+
   // combine effects
-  targetScale = nearLink ? 0.2 : speedScale;
+  
+  const maxDist = 200; // how far influence extends
+  let proximity = Math.max(0, 1 - minDistance / maxDist);
+  targetOpacity = 1 - proximity * 0.2;
+
+  // ✅ smooth blend between normal + small
+  targetScale = speedScale * (1 - proximity * 0.8);
+
 });
+
 
 function animate() {
   currentScale += (targetScale - currentScale) * 0.06;
+  currentOpacity += (targetOpacity - currentOpacity) * 0.06;
 
   cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
 
+  // ✅ ADD THIS
+  cursor.style.background = `rgba(255, 255, 255, ${0.03 * currentOpacity})`;
+
   requestAnimationFrame(animate);
 }
+
 
 animate();
 
@@ -301,41 +317,24 @@ animatebgColour();
 
 // ADDING STACK ANIM
 
-
 const cards = document.querySelectorAll(".project-preview");
 
-let currentIndex = 6;
+let currentIndex = 5;
 
-function updateStack() {
-  cards.forEach(card => {
-    card.classList.remove("active", "prev", "next");
-  });
 
-  if (cards[currentIndex]) {
-    cards[currentIndex].classList.add("active");
-  }
 
-  if (cards[currentIndex - 1]) {
-    cards[currentIndex - 1].classList.add("prev");
-  }
-
-  if (cards[currentIndex + 1]) {
-    cards[currentIndex + 1].classList.add("next");
-  }
-}
-
-updateStack();
+let previewIndex = null;
 
 
 function updateStack() {
+  const activeIndex = previewIndex !== null ? previewIndex : currentIndex;
+
   cards.forEach((card, i) => {
-    const offset = i - currentIndex;
+    const offset = i - activeIndex;
 
-    // position spacing
-    
     const y = offset > 0 
-      ? offset * 80     // ✅ below → keep this bigger
-      : offset * 20;    // ✅ above → reduce movement
+      ? offset * 80 
+      : offset * 20;
 
     const scale = 1 - Math.abs(offset) * 0.03;
     const opacity = 1 - Math.abs(offset) * 0.1;
@@ -346,18 +345,24 @@ function updateStack() {
     `;
 
     card.style.opacity = opacity;
-
-    // z-index layering
     card.style.zIndex = 100 - Math.abs(offset);
+
+    card.classList.toggle("active", i === activeIndex);
   });
 }
 
 
+updateStack();
 
 let isScrolling = false;
+let isHoverLocked = false;
+
 
 window.addEventListener("wheel", (e) => {
   if (!LandingOpen || isScrolling) return;
+
+  previewIndex = null;
+  isHoverLocked = true; // ✅ block hover during scroll
 
   isScrolling = true;
 
@@ -371,5 +376,55 @@ window.addEventListener("wheel", (e) => {
 
   setTimeout(() => {
     isScrolling = false;
+    isHoverLocked = false; // ✅ enable hover again
   }, 300);
+});
+
+
+
+
+function openProject(index) {
+  const pages = [
+    "categories/photography.html",
+    "categories/art.html",
+    "categories/music.html",
+    "categories/architecture.html",
+    "categories/interactive_media.html",
+    "categories/all_projects.html"
+  ];
+
+  window.location.href = pages[index];
+}
+
+
+cards.forEach((card, i) => {
+  card.addEventListener("click", () => {
+
+    // ✅ ONLY allow click on active card
+    if (i !== currentIndex) return;
+
+    openProject(i);
+  });
+});
+
+
+cards.forEach((card, i) => {
+
+  // ✅ hover ON → preview that card
+ 
+
+  card.addEventListener("mouseenter", () => {
+    if (isHoverLocked) return; // ✅ prevent conflict
+
+    previewIndex = i;
+    updateStack();
+  });
+
+
+  // ✅ hover OFF → return to scroll-selected card
+  card.addEventListener("mouseleave", () => {
+    previewIndex = null;
+    updateStack();
+  });
+
 });
