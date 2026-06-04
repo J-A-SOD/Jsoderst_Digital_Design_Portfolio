@@ -299,3 +299,73 @@ function animatebgColour() {
 
 animatebgColour();
 
+// ADDING STACK ANIM
+
+
+const cards = document.querySelectorAll(".project-preview");
+
+let currentIndex = 2;
+
+function updateStack() {
+  cards.forEach(card => {
+    card.classList.remove("active", "prev", "next");
+  });
+
+  if (cards[currentIndex]) {
+    cards[currentIndex].classList.add("active");
+  }
+
+  if (cards[currentIndex - 1]) {
+    cards[currentIndex - 1].classList.add("prev");
+  }
+
+  if (cards[currentIndex + 1]) {
+    cards[currentIndex + 1].classList.add("next");
+  }
+}
+
+updateStack();
+
+
+function updateStack() {
+  cards.forEach((card, i) => {
+    const offset = i - currentIndex;
+
+    // position spacing
+    const y = offset * -70;   // ✅ vertical spacing
+    const scale = 1 - Math.abs(offset) * 0.05;
+    const opacity = 1 - Math.abs(offset) * 0.1;
+
+    card.style.transform = `
+      translateY(${y}px)
+      scale(${scale})
+    `;
+
+    card.style.opacity = opacity;
+
+    // z-index layering
+    card.style.zIndex = 100 - Math.abs(offset);
+  });
+}
+
+
+
+let isScrolling = false;
+
+window.addEventListener("wheel", (e) => {
+  if (!LandingOpen || isScrolling) return;
+
+  isScrolling = true;
+
+  if (e.deltaY > 0) {
+    currentIndex = Math.min(cards.length - 1, currentIndex + 1);
+  } else {
+    currentIndex = Math.max(0, currentIndex - 1);
+  }
+
+  updateStack();
+
+  setTimeout(() => {
+    isScrolling = false;
+  }, 300);
+});
