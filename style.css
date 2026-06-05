@@ -165,10 +165,75 @@ main {
   left: 200px;
   font-weight: 700;
   font-size: 14px;
-  line-height: 1.4;
-
   color: rgba(255, 255, 255, 0.7);
 }
+
+.side-text {
+  position: fixed;
+
+  top: 20%;
+  left: 80px;
+
+  transform: translateY(-50%);
+  line-height: 0.8;
+  max-width: 500px;
+
+  z-index: 3;
+}
+
+.second-specs {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+body.move-up .second-specs {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body.move-up .landing-specs:not(.second-specs) {
+  opacity: 0;
+}
+
+.second-specs {
+  transition: opacity 0.6s ease 0.6s,
+              transform 0.6s ease 0.6s;
+}
+
+
+.side-text p {
+  margin: 0;
+
+  font-size: clamp(28px, 3vw, 48px);
+  line-height: 1;
+
+  color: rgba(255,255,255,0.9);
+}
+
+.bold {
+  font-weight: 800;
+}
+
+.accent {
+  color: #0ac1f8; /* matches your site accent tone */
+  font-style: italic;
+  font-family: "Zodiac";
+}
+
+
+.side-text {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.side-text.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
 
 .audio-toggle {
   position: fixed;

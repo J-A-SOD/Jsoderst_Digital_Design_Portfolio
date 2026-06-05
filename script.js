@@ -249,27 +249,36 @@ const arrow = document.getElementById("arrow");
 const landingpage = document.getElementById("landingpage");
 let LandingOpen = false;
 
+
 arrow.addEventListener("click", () => {
   LandingOpen = !LandingOpen;
 
   if (LandingOpen) {
     hero.classList.add("move-up");
     document.body.classList.add("move-up");
-    arrow.classList.add("flipped")
-    document.body.classList.add("colour-shift")
+    arrow.classList.add("flipped");
+    document.body.classList.add("colour-shift");
+
+    // ✅ ADD THIS (fade in after delay)
+    setTimeout(() => {
+      document.querySelector(".side-text").classList.add("show");
+    }, 1200);
+
   } else {
     hero.classList.remove("move-up");
     document.body.classList.remove("move-up");
-    arrow.classList.remove("flipped")
-    document.body.classList.remove("colour-shift")
+    arrow.classList.remove("flipped");
+    document.body.classList.remove("colour-shift");
+
+    // ✅ REMOVE on close
+    document.querySelector(".side-text").classList.remove("show");
   }
-  
-  // page 2 vs page 1 values
+
+  // page 2 vs page 1 values  
   bgTargetHue = LandingOpen ? 120 : 0;
   bgTargetSat = LandingOpen ? 1.5 : 0.9;
   bgTargetBright = LandingOpen ? 4.0 : 0.9;
-
-}); 
+});
 
 let bgCurrentHue = 0;
 let bgTargetHue = 0;
