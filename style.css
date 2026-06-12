@@ -223,15 +223,30 @@ body.move-up .landing-specs:not(.second-specs) {
 
 
 .side-text {
+  position: fixed;
+  top: 50%;
+  left: 80px;
+ 
   opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1s ease, transform 1s ease;
+  transform: translateY(-50%) translateY(20px);
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
-.side-text.show {
+
+
+body.move-up .side-text {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(-50%) translateY(0);
+
+  transition:
+    opacity 1.6s ease 1.6s,
+    transform 1.6s ease 1.6s;
 }
+
+
 
 
 
@@ -306,7 +321,6 @@ body.move-up .landing-specs:not(.second-specs) {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 }
-
 
 .project-preview {
   

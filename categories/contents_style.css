@@ -1,0 +1,65 @@
+.projects-header {
+  position: fixed;
+  top: 20px;
+  left: 40px;
+  z-index: 10;
+}
+
+.projects-grid {
+  margin-top: 120px;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  padding: 40px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.filter-bar {
+  position: fixed;
+  top: 20px;
+  left: 40px;
+  z-index: 10;
+}
+
+/* dropdown container */
+.dropdown {
+  position: relative;
+}
+
+/* button */
+#dropdown-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+}
+
+/* menu */
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px;
+  display: none;
+}
+
+/* visible */
+.dropdown-menu.show {
+  display: block;
+}
+
+/* items */
+.dropdown-menu label {
+  display: block;
+  margin-bottom: 6px;
+  cursor: pointer;
+}

@@ -1,13 +1,31 @@
-const bg = document.querySelector(".background");
+// =============================
+// DOM REFERENCES
+// =============================
+const cursor = document.querySelector(".cursor-glass");
+const links = document.querySelectorAll(".header-nav a, #audio-toggle, .arrow, .project-preview");
 
+const leftLine = document.querySelector(".left");
+const rightContainer = document.querySelector(".right-container");
 
-// LANDING PAGE TEXT ALTERNATOR
+const LandingBgFrameA = document.getElementById("LandingBgFrameA");
+const LandingBgFrameB = document.getElementById("LandingBgFrameB");
 
+const glass = document.querySelector(".glass-layer");
+
+const arrow = document.getElementById("arrow");
+const button = document.getElementById("audio-toggle");
+
+const cards = document.querySelectorAll(".project-preview");
+const hero = document.getElementById("hero");
+
+// =============================
+// TEXT ROTATOR
+// =============================
 const words = [
   "graphic design",
   "photography",
   "music",
-  "sound design", 
+  "sound design",
   "architecture",
   "interactive media"
 ];
@@ -16,7 +34,6 @@ let wordIndex = 0;
 const text = document.getElementById("changing-landing-accent");
 
 if (text) {
-  
   setInterval(() => {
     text.style.opacity = 0;
 
@@ -25,31 +42,24 @@ if (text) {
       text.textContent = words[wordIndex];
       text.style.opacity = 1;
     }, 300);
+
   }, 2000);
 }
 
-// GLASS CURSOR SCRIPT
-
-const cursor = document.querySelector(".cursor-glass");
-const links = document.querySelectorAll(".header-nav a, #audio-toggle, .arrow, .project-preview");
-
+// =============================
+// CURSOR
+// =============================
 let lastX = 0;
 let lastY = 0;
-
 let velocity = 0;
+
 let currentScale = 1;
 let targetScale = 1;
 
-let currentOpacity = 1;
-let targetOpacity = 1;
-
-
 document.addEventListener("mousemove", (e) => {
-  // move cursor
   cursor.style.left = e.clientX + "px";
   cursor.style.top = e.clientY + "px";
 
-  // calculate speed
   const dx = e.clientX - lastX;
   const dy = e.clientY - lastY;
 
@@ -58,18 +68,13 @@ document.addEventListener("mousemove", (e) => {
   lastX = e.clientX;
   lastY = e.clientY;
 
-  // base scale from speed
   let speedScale = Math.max(0.5, 1 - velocity / 80);
 
-  // check proximity to links
-  let nearLink = false;
   let minDistance = Infinity;
-  
 
   links.forEach(link => {
     const rect = link.getBoundingClientRect();
 
-    // ✅ distance to EDGE of element, not center
     const dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
     const dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
 
@@ -78,53 +83,36 @@ document.addEventListener("mousemove", (e) => {
     minDistance = Math.min(minDistance, distance);
   });
 
-
-  // combine effects
-  
-  const maxDist = 200; // how far influence extends
+  const maxDist = 200;
   let proximity = Math.max(0, 1 - minDistance / maxDist);
-  targetOpacity = 1 - proximity * 0.2;
 
-  // ✅ smooth blend between normal + small
   targetScale = speedScale * (1 - proximity * 0.8);
-
 });
 
-
-function animate() {
+function animateCursor() {
   currentScale += (targetScale - currentScale) * 0.06;
-  currentOpacity += (targetOpacity - currentOpacity) * 0.06;
 
   cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
 
-  // ✅ ADD THIS
-  cursor.style.background = `rgba(255, 255, 255, ${0.03 * currentOpacity})`;
-
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animateCursor);
 }
 
+animateCursor();
 
-animate();
-
-// ANIMATE LANDING HEADER
-
-const rightContainer = document.querySelector(".right-container")
-const leftLine = document.querySelector(".left");
-const rightLine = document.querySelector(".right");
-
+// =============================
+// TEXT PARALLAX
+// =============================
 let mouseY = 0;
+let currentOffset = 0;
 
 document.addEventListener("mousemove", (e) => {
   mouseY = e.clientY;
 });
 
-let currentOffset = 0;
-
 function animateText() {
   const normalizedY = (mouseY / window.innerHeight) - 0.5;
   const targetOffset = normalizedY * 50;
 
-  // smooth interpolation (this is your delay)
   currentOffset += (targetOffset - currentOffset) * 0.05;
 
   leftLine.style.transform = `translateX(${-currentOffset}px)`;
@@ -135,73 +123,71 @@ function animateText() {
 
 animateText();
 
-// Animate Background 
-
-const LandingBgFrameA = document.getElementById("LandingBgFrameA");
-const LandingBgFrameB = document.getElementById("LandingBgFrameB");
-
+// =============================
+// BACKGROUND
+// =============================
 const totalFrames = 40;
-
 let currentFrame = 1;
 let showingA = true;
 
 document.addEventListener("mousemove", (e) => {
   const y = e.clientY / window.innerHeight;
   const x = e.clientX / window.innerWidth;
+
   const progress = (x + y) / 2 + (x - y) * 0.2;
   const frameIndex = Math.round(progress * (totalFrames - 1)) + 1;
 
-  
-  
   if (frameIndex !== currentFrame) {
     currentFrame = frameIndex;
 
     const nextSrc = `assets/landingframes/frame_0${frameIndex}.jpg`;
+
     const nextImage = showingA ? LandingBgFrameB : LandingBgFrameA;
     const currentImage = showingA ? LandingBgFrameA : LandingBgFrameB;
 
-    // preload before showing
     const img = new Image();
     img.src = nextSrc;
 
     img.onload = () => {
       nextImage.src = nextSrc;
-
       nextImage.style.opacity = 1;
       currentImage.style.opacity = 0;
 
       showingA = !showingA;
     };
   }
-
-
 });
 
+// =============================
+// FADE IN
+// =============================
 window.addEventListener("load", () => {
   const fades = document.querySelectorAll(".fade");
 
   fades.forEach((el, i) => {
     setTimeout(() => {
       el.classList.add("show");
-    }, i * 300); // delay between items
+    }, i * 300);
   });
 });
 
-// MUSIC
-
-let targetVolumes = [0, 0, 0, 0];
-let currentVolumes = [0, 0, 0, 0];
-
+// =============================
+// AUDIO
+// =============================
 const a = document.getElementById("track00");
 const b = document.getElementById("track01");
 const c = document.getElementById("track10");
 const d = document.getElementById("track11");
 
-// start all tracks muted
-[a, b, c, d].forEach(t => {
+const tracks = [a, b, c, d];
+
+let targetVolumes = [0, 0, 0, 0];
+let currentVolumes = [0, 0, 0, 0];
+
+tracks.forEach(t => {
   t.volume = 0;
   t.loop = true;
-  t.play(); 
+  t.play();
 });
 
 function makeSeamlessLoop(track, overlap = 0.15) {
@@ -214,25 +200,19 @@ function makeSeamlessLoop(track, overlap = 0.15) {
   check();
 }
 
-
-[a, b, c, d].forEach(t => {
-  makeSeamlessLoop(t, 0.15);
-});
-
+tracks.forEach(t => makeSeamlessLoop(t));
 
 document.addEventListener("mousemove", (e) => {
   const x = e.clientX / window.innerWidth;
   const y = e.clientY / window.innerHeight;
 
-  targetVolumes[0] = (1 - x) * (1 - y); // a
-  targetVolumes[1] = x * (1 - y);       // b
-  targetVolumes[2] = (1 - x) * y;       // c
-  targetVolumes[3] = x * y;             // d
+  targetVolumes[0] = (1 - x) * (1 - y);
+  targetVolumes[1] = x * (1 - y);
+  targetVolumes[2] = (1 - x) * y;
+  targetVolumes[3] = x * y;
 });
 
 function animateAudio() {
-  const tracks = [a, b, c, d];
-
   for (let i = 0; i < tracks.length; i++) {
     currentVolumes[i] += (targetVolumes[i] - currentVolumes[i]) * 0.01;
     tracks[i].volume = currentVolumes[i];
@@ -245,79 +225,54 @@ animateAudio();
 
 let audioPlaying = false;
 
-const button = document.getElementById("audio-toggle");
-
 button.addEventListener("click", () => {
   if (!audioPlaying) {
-    [a, b, c, d].forEach(t => t.play());
+    tracks.forEach(t => t.play());
     button.textContent = "Mute Sound";
-    audioPlaying = true;
   } else {
-    [a, b, c, d].forEach(t => t.pause());
+    tracks.forEach(t => t.pause());
     button.textContent = "Enable Sound";
-    audioPlaying = false;
   }
+
+  audioPlaying = !audioPlaying;
 });
 
-// DOWN ARROW
-
-const arrow = document.getElementById("arrow");
-const landingpage = document.getElementById("landingpage");
+// =============================
+// ARROW
+// =============================
 let LandingOpen = false;
-
-
 
 arrow.addEventListener("click", () => {
   LandingOpen = !LandingOpen;
 
-  if (LandingOpen) {
-    hero.classList.add("move-up");
-    document.body.classList.add("move-up");
-    arrow.classList.add("flipped");
-    document.body.classList.add("colour-shift");
+  hero.classList.toggle("move-up", LandingOpen);
+  document.body.classList.toggle("move-up", LandingOpen);
+  arrow.classList.toggle("flipped", LandingOpen);
+  document.body.classList.toggle("colour-shift", LandingOpen);
 
-    // ✅ ADD THIS (fade in after delay)
-    setTimeout(() => {
-      document.querySelector(".side-text").classList.add("show");
-    }, 1200);
-
-  } else {
-    hero.classList.remove("move-up");
-    document.body.classList.remove("move-up");
-    arrow.classList.remove("flipped");
-    document.body.classList.remove("colour-shift");
-
-    // ✅ REMOVE on close
-    document.querySelector(".side-text").classList.remove("show");
-  }
-
-  // page 2 vs page 1 values  
-  bgTargetHue = LandingOpen ? 130 : 0;
-  bgTargetSat = LandingOpen ? 1.5 : 0.9;
-  bgTargetBright = LandingOpen ? 3.5 : 0.9;
+  bgTarget.hue = LandingOpen ? 120 : 0;
+  bgTarget.sat = LandingOpen ? 1.5 : 0.9;
+  bgTarget.bright = LandingOpen ? 4.0 : 0.9;
 });
 
-let bgCurrentHue = 0;
-let bgTargetHue = 100;
-let bgCurrentSat = 1;
-let bgTargetSat = 1;
-let bgCurrentBright = 1;
-let bgTargetBright = 1;
+// =============================
+// BACKGROUND COLOR
+// =============================
+let bgCurrent = { hue: 0, sat: 1, bright: 1 };
+let bgTarget = { hue: 0, sat: 1, bright: 1 };
 
 function animatebgColour() {
-  bgCurrentHue += (bgTargetHue - bgCurrentHue) * 0.01;
-  bgCurrentSat += (bgTargetSat - bgCurrentSat) * 0.01;
-  bgCurrentBright += (bgTargetBright - bgCurrentBright) * 0.01;
-
-  const glass = document.querySelector(".glass-layer");
+  bgCurrent.hue += (bgTarget.hue - bgCurrent.hue) * 0.03;
+  bgCurrent.sat += (bgTarget.sat - bgCurrent.sat) * 0.01;
+  bgCurrent.bright += (bgTarget.bright - bgCurrent.bright) * 0.01;
 
   if (glass) {
-    
-    glass.style.backdropFilter =
-      `blur(50px) 
-      hue-rotate(${bgCurrentHue}deg) 
-      saturate(${bgCurrentSat}) 
-      brightness(${bgCurrentBright})`;
+    glass.style.backdropFilter = `
+      blur(50px)
+      hue-rotate(${bgCurrent.hue}deg)
+      saturate(${bgCurrent.sat})
+      brightness(${bgCurrent.bright})
+    `;
   }
 
   requestAnimationFrame(animatebgColour);
@@ -325,26 +280,16 @@ function animatebgColour() {
 
 animatebgColour();
 
-// ADDING STACK ANIM
-
-const cards = document.querySelectorAll(".project-preview");
-
-let currentIndex = 5;
-
-
-
-let previewIndex = null;
-
+// =============================
+// STACK SYSTEM
+// =============================
+let currentIndex = Math.floor(cards.length / 2);
 
 function updateStack() {
-  const activeIndex = previewIndex !== null ? previewIndex : currentIndex;
-
   cards.forEach((card, i) => {
-    const offset = i - activeIndex;
+    const offset = i - currentIndex;
 
-    const y = offset > 0 
-      ? offset * 80 
-      : offset * 20;
+    const y = offset > 0 ? offset * 80 : offset * 20;
 
     const scale = 1 - Math.abs(offset) * 0.03;
     const opacity = 1 - Math.abs(offset) * 0.1;
@@ -353,26 +298,19 @@ function updateStack() {
       translateY(${y}px)
       scale(${scale})
     `;
-
     card.style.opacity = opacity;
     card.style.zIndex = 100 - Math.abs(offset);
 
-    card.classList.toggle("active", i === activeIndex);
+    card.classList.toggle("active", i === currentIndex);
   });
 }
-
 
 updateStack();
 
 let isScrolling = false;
-let isHoverLocked = false;
-
 
 window.addEventListener("wheel", (e) => {
   if (!LandingOpen || isScrolling) return;
-
-  previewIndex = null;
-  isHoverLocked = true; // ✅ block hover during scroll
 
   isScrolling = true;
 
@@ -386,55 +324,27 @@ window.addEventListener("wheel", (e) => {
 
   setTimeout(() => {
     isScrolling = false;
-    isHoverLocked = false; // ✅ enable hover again
   }, 300);
 });
 
-
-
-
+// =============================
+// NAVIGATION
+// =============================
 function openProject(index) {
   const pages = [
-    "categories/photography.html",
-    "categories/art.html",
-    "categories/music.html",
-    "categories/architecture.html",
-    "categories/interactive_media.html",
-    "categories/all_projects.html"
+    "interactive.html",
+    "music.html",
+    "photo.html",
+    "architecture.html",
+    "art.html"
   ];
 
   window.location.href = pages[index];
 }
 
-
 cards.forEach((card, i) => {
   card.addEventListener("click", () => {
-
-    // ✅ ONLY allow click on active card
     if (i !== currentIndex) return;
-
     openProject(i);
   });
-});
-
-
-cards.forEach((card, i) => {
-
-  // ✅ hover ON → preview that card
- 
-
-  card.addEventListener("mouseenter", () => {
-    if (isHoverLocked) return; // ✅ prevent conflict
-
-    previewIndex = i;
-    updateStack();
-  });
-
-
-  // ✅ hover OFF → return to scroll-selected card
-  card.addEventListener("mouseleave", () => {
-    previewIndex = null;
-    updateStack();
-  });
-
 });
