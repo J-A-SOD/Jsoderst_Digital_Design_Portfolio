@@ -170,6 +170,27 @@ main {
   opacity: 0;
 }
 
+
+
+#audio-toggle {
+  position: fixed;
+  text-decoration: underline;
+  mix-blend-mode: screen;
+  left: 60px;
+  bottom: 130px; /* sits above the meta text */
+  transition: opacity 0.2s ease-in-out;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  cursor: none;
+}
+
+
 .header-nav {
   position: fixed;
   top: 20px;

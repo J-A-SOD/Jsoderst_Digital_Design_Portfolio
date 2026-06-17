@@ -9,10 +9,13 @@ const dropdownMenu = document.getElementById("dropdown-menu");
 const LandingBgFrameA = document.getElementById("LandingBgFrameA");
 const LandingBgFrameB = document.getElementById("LandingBgFrameB");
 
+const audioBtn = document.getElementById("audio-toggle");
+
+// =============================
 // FADE IN
+// =============================
 window.addEventListener("load", () => {
   const fades = document.querySelectorAll(".fade");
-
   fades.forEach((el, i) => {
     setTimeout(() => {
       el.classList.add("show");
@@ -20,40 +23,34 @@ window.addEventListener("load", () => {
   });
 });
 
-// --- DROPDOWN TOGGLE ---
+// =============================
+// DROPDOWN
+// =============================
 dropdownBtn.addEventListener("click", () => {
   dropdownMenu.classList.toggle("show");
 });
 
-// --- APPLY FILTER ---
 function applyFilters() {
   const selected = Array.from(checkboxes)
     .filter(cb => cb.checked)
     .map(cb => cb.value);
 
-  // if nothing selected → show all
   if (selected.length === 0) {
-    cards.forEach(card => {
-      card.style.display = "block";
-    });
+    cards.forEach(card => card.style.display = "block");
     return;
   }
 
   cards.forEach(card => {
-    if (selected.includes(card.dataset.category)) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
+    card.style.display = selected.includes(card.dataset.category)
+      ? "block"
+      : "none";
   });
 }
 
-// --- CHECKBOX CHANGE ---
 checkboxes.forEach(cb => {
   cb.addEventListener("change", applyFilters);
 });
 
-// --- INITIAL FILTER FROM LANDING PAGE ---
 if (initialCategory && initialCategory !== "all") {
   const target = document.querySelector(
     `.dropdown-menu input[value="${initialCategory}"]`
@@ -63,28 +60,34 @@ if (initialCategory && initialCategory !== "all") {
 
 applyFilters();
 
-// --- CLICK OUTSIDE TO CLOSE ---
-
-// BG ANIMATIONS //
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".dropdown")) {
     dropdownMenu.classList.remove("show");
   }
 });
 
+// =============================
+// BACKGROUND
+// =============================
 const totalFrames = 60;
 let currentFrame = 1;
 let showingA = true;
+let frameRequestId = 0;
 
 document.addEventListener("mousemove", (e) => {
+
   const y = e.clientY / window.innerHeight;
   const x = e.clientX / window.innerWidth;
 
   const progress = (x + y) / 2 + (x - y) * 0.2;
   const frameIndex = Math.round(progress * (totalFrames - 1)) + 1;
 
-  isTransitioning = true;
+  // IMPORTANT FIX
+  if (frameIndex === currentFrame) return;
   currentFrame = frameIndex;
+
+  frameRequestId++;
+  const requestId = frameRequestId;
 
   const padded = String(frameIndex).padStart(3, "0");
   const nextSrc = `../assets/navframes/frame_${padded}.jpg`;
@@ -97,74 +100,129 @@ document.addEventListener("mousemove", (e) => {
 
   img.onload = () => {
 
-    // ensure new image is ready
+    // prevent race condition
+    if (requestId !== frameRequestId) return;
+
     nextImage.src = nextSrc;
     nextImage.style.opacity = 1;
 
-    // only after it's visible, remove old
     requestAnimationFrame(() => {
       currentImage.style.opacity = 0;
-
       showingA = !showingA;
-
-      isTransitioning = false;
     });
   };
 });
 
-
-
-// CURSOR //
-
+// =============================
+// CURSOR (FIXED)
+// =============================
 const cursor = document.querySelector(".cursor-glass");
-const links = document.querySelectorAll(".header-nav a, #dropdown-toggle");
+const links = document.querySelectorAll(".header-nav a, #dropdown-toggle, #audio-toggle");
 
-let lastX = 0;
-let lastY = 0;
-let velocity = 0;
+if (cursor) {
 
-let currentScale = 1;
-let targetScale = 1;
+  let lastX = 0;
+  let lastY = 0;
+  let velocity = 0;
 
-document.addEventListener("mousemove", (e) => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
+  let currentScale = 1;
+  let targetScale = 1;
 
-  const dx = e.clientX - lastX;
-  const dy = e.clientY - lastY;
+  document.addEventListener("mousemove", (e) => {
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
 
-  velocity = Math.sqrt(dx * dx + dy * dy);
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
 
-  lastX = e.clientX;
-  lastY = e.clientY;
+    velocity = Math.sqrt(dx * dx + dy * dy);
 
-  let speedScale = Math.max(0.5, 1 - velocity / 80);
+    lastX = e.clientX;
+    lastY = e.clientY;
 
-  let minDistance = Infinity;
+    let speedScale = Math.max(0.5, 1 - velocity / 80);
 
-  links.forEach(link => {
-    const rect = link.getBoundingClientRect();
+    let minDistance = Infinity;
 
-    const dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
-    const dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
+    links.forEach(link => {
+      if (!link) return;
 
-    const distance = Math.sqrt(dx * dx + dy * dy);
+      const rect = link.getBoundingClientRect();
 
-    minDistance = Math.min(minDistance, distance);
+      const dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
+      const dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
+
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      minDistance = Math.min(minDistance, distance);
+    });
+
+    const maxDist = 200;
+    const proximity = Math.max(0, 1 - minDistance / maxDist);
+
+    targetScale = speedScale * (1 - proximity * 0.8);
   });
 
-  const maxDist = 200;
-  let proximity = Math.max(0, 1 - minDistance / maxDist);
+  function animateCursor() {
+    currentScale += (targetScale - currentScale) * 0.06;
+    cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
+    requestAnimationFrame(animateCursor);
+  }
 
-  targetScale = speedScale * (1 - proximity * 0.8);
-});
-
-function animateCursor() {
-  currentScale += (targetScale - currentScale) * 0.06;
-
-  cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
-
-  requestAnimationFrame(animateCursor);
+  animateCursor();
 }
 
-animateCursor();
+// =============================
+// AUDIO
+// =============================
+const hoverSounds = [
+  document.getElementById("hover1"),
+  document.getElementById("hover2"),
+  document.getElementById("hover3"),
+  document.getElementById("hover4")
+];
+
+const navLinks = document.querySelectorAll(".header-nav a");
+
+let audioEnabled = false;
+let audioUnlocked = false;
+
+if (audioBtn) {
+  audioBtn.textContent = "Enable Sound";
+}
+
+audioBtn.addEventListener("click", () => {
+
+  if (!audioUnlocked) {
+    hoverSounds.forEach(sound => {
+      if (!sound) return;
+      sound.play().then(() => {
+        sound.pause();
+        sound.currentTime = 0;
+      }).catch(() => {});
+    });
+    audioUnlocked = true;
+  }
+
+  audioEnabled = !audioEnabled;
+
+  audioBtn.textContent = audioEnabled
+    ? "Mute Sound"
+    : "Enable Sound";
+});
+
+navLinks.forEach(link => {
+  link.addEventListener("mouseenter", () => {
+
+    if (!audioEnabled) return;
+
+    const base = hoverSounds[
+      Math.floor(Math.random() * hoverSounds.length)
+    ];
+
+    if (!base) return;
+
+    const sound = base.cloneNode();
+    sound.play();
+  });
+});

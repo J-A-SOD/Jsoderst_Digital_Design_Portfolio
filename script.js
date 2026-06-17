@@ -348,3 +348,62 @@ cards.forEach((card, i) => {
     openProject(i);
   });
 });
+
+
+// =============================
+// AUDIO
+// =============================
+
+const audioBtn = document.getElementById("audio-toggle");
+
+const hoverSounds = [
+  document.getElementById("hover1"),
+  document.getElementById("hover2"),
+  document.getElementById("hover3"),
+  document.getElementById("hover4")
+];
+
+const navLinks = document.querySelectorAll(".header-nav a");
+
+let audioEnabled = false;
+let audioUnlocked = false;
+
+if (audioBtn) {
+  audioBtn.textContent = "Enable Sound";
+}
+
+audioBtn.addEventListener("click", () => {
+
+  if (!audioUnlocked) {
+    hoverSounds.forEach(sound => {
+      if (!sound) return;
+      sound.play().then(() => {
+        sound.pause();
+        sound.currentTime = 0;
+      }).catch(() => {});
+    });
+    audioUnlocked = true;
+  }
+
+  audioEnabled = !audioEnabled;
+
+  audioBtn.textContent = audioEnabled
+    ? "Mute Sound"
+    : "Enable Sound";
+});
+
+navLinks.forEach(link => {
+  link.addEventListener("mouseenter", () => {
+
+    if (!audioEnabled) return;
+
+    const base = hoverSounds[
+      Math.floor(Math.random() * hoverSounds.length)
+    ];
+
+    if (!base) return;
+
+    const sound = base.cloneNode();
+    sound.play();
+  });
+});
