@@ -252,7 +252,7 @@ arrow.addEventListener("click", () => {
 
   bgTarget.hue = LandingOpen ? 120 : 0;
   bgTarget.sat = LandingOpen ? 1.5 : 0.9;
-  bgTarget.bright = LandingOpen ? 4.0 : 0.9;
+  bgTarget.bright = LandingOpen ? 2.5 : 0.9;
 });
 
 // =============================
