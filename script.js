@@ -268,7 +268,7 @@ function animatebgColour() {
 
   if (glass) {
     glass.style.backdropFilter = `
-      blur(50px)
+      blur(35px)
       hue-rotate(${bgCurrent.hue}deg)
       saturate(${bgCurrent.sat})
       brightness(${bgCurrent.bright})
