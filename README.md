@@ -16,4 +16,4 @@ This repository is designed to be a copy of my website that contains my work in 
 | INTERACTIVE MEDIA | Interactive experiences and user experience projects |
 ---
 ### WEBSITE LINK
-https://j-a-sod.github.io/Jsoderst_Digital_Design_Portfolio/
+https://j-a-sod.github.io/Prototype-Design-Folio-Website/
