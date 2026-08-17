@@ -1,5 +1,11 @@
 # SODERRA - DIGITAL PORTFOLIO
 ---
+# NOTE
+**THIS PAGE IS A CONCEPT FOR A WEBSITE**
+
+
+
+
 ### SODERRA
 Soderra is the name of my collection of work in my various fields of interest. The collection covers architectural proposals, music, interactive media and digital artwork. 
 
